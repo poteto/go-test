@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"log"
 	"net/http"
 	"strings"
@@ -9,9 +10,12 @@ import (
 )
 
 func main() {
+	wundergroundAPIKey := flag.String("wunderground.api.key", "b381585e143811a3", "wunderground.com API key")
+	flag.Parse()
+
 	mw := multiWeatherProvider{
 		openWeatherMap{},
-		weatherUnderground{apiKey: "b381585e143811a3"},
+		weatherUnderground{apiKey: *wundergroundAPIKey},
 	}
 
 	http.HandleFunc("/weather/", func(w http.ResponseWriter, r *http.Request) {
